@@ -4,7 +4,7 @@ import { InsertResult, Repository } from 'typeorm';
 import { Report } from '../entities/report.entity';
 
 @Injectable()
-export class ReportService {
+export class ReportCoreService {
   constructor(
     @InjectRepository(Report)
     private reportRepository: Repository<Report>,

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ReportModule } from 'core/core';
+import { ReportCoreModule } from 'core/core';
 import { getConnectionOptions } from 'typeorm';
 import { TextGeneratorController } from '../controllers/textGenerator.controller';
 import { TextGeneratorService } from '../services/textGenerator.service';
@@ -13,7 +13,7 @@ import { TextGeneratorService } from '../services/textGenerator.service';
           autoLoadEntities: true,
         }),
     }),
-    ReportModule,
+    ReportCoreModule,
   ],
   controllers: [TextGeneratorController],
   providers: [TextGeneratorService],
