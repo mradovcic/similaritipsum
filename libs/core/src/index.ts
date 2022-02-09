@@ -1,2 +1,3 @@
-export * from './core.module';
-export * from './core.service';
+export * from './entities/report.entity';
+export * from './services/report.service';
+export * from './modules/report.module';
