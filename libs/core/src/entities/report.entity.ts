@@ -1,5 +1,9 @@
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
+export class ReportResult {
+  result: number;
+}
+
 @Entity({ name: 'report' })
 export class Report {
   @PrimaryColumn({ name: 'id', type: 'uuid' })
@@ -19,8 +23,4 @@ export class Report {
 
   @Column({ name: 'result', nullable: true, type: 'jsonb' })
   result?: ReportResult;
-}
-
-export class ReportResult {
-  result: number;
 }
