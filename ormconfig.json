@@ -1,0 +1,15 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "test",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true,
+  "migrationsTableName": "similaritypsum.version_info",
+  "migrations": ["migration/*.ts"],
+  "cli": {
+      "migrationsDir": "migration"
+  }
+}

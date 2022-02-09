@@ -15,12 +15,15 @@ export class Report {
   @Column({ name: 'status' })
   status: string;
 
+  @Column({ name: 'first_text' })
+  firstText: string;
+
+  @Column({ name: 'second_text' })
+  secondText: string;
+
   @Column({ name: 'processed_date_time', nullable: true })
   processedDateTime?: Date;
 
-  @Column({ name: 'compared_texts', nullable: true, type: 'jsonb' })
-  comparedTexts?: [string];
-
-  @Column({ name: 'result', nullable: true, type: 'jsonb' })
-  result?: ReportResult;
+  @Column({ name: 'result', type: 'numeric' })
+  result?: number;
 }
