@@ -7,7 +7,7 @@
   "database": "test",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
-  "migrationsTableName": "similaritypsum.version_info",
+  "migrationsTableName": "similaritipsum.version_info",
   "migrations": ["migration/*.ts"],
   "cli": {
       "migrationsDir": "migration"

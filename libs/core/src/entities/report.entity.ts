@@ -4,8 +4,18 @@ export class ReportResult {
   result: number;
 }
 
+export declare type ReportStatus = 'created' | 'rejected' | 'processed';
+
 @Entity({ name: 'report' })
 export class Report {
+  constructor(id: string, firstText: string, secondText: string) {
+    this.id = id;
+    this.createdDateTime = new Date();
+    this.status = 'created';
+    this.firstText = firstText;
+    this.secondText = secondText;
+  }
+
   @PrimaryColumn({ name: 'id', type: 'uuid' })
   id: string;
 
@@ -13,7 +23,7 @@ export class Report {
   createdDateTime: Date;
 
   @Column({ name: 'status' })
-  status: string;
+  status: ReportStatus;
 
   @Column({ name: 'first_text' })
   firstText: string;

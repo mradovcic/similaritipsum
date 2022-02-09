@@ -1,4 +1,5 @@
 export * from './entities/report.entity';
-export * from './services/report.service';
-export * from './modules/report.module';
+export * from './services/reportCore.service';
+export * from './modules/reportCore.module';
 export * from './dto/generateWordsResponse.dto';
+export * from './dto/reportRequest.dto';
