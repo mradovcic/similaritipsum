@@ -17,4 +17,8 @@ export class ReportCoreService {
   add(report: Report): Promise<InsertResult> {
     return this.reportRepository.insert(report);
   }
+
+  update(report: Report): Promise<Report> {
+    return this.reportRepository.save(report);
+  }
 }

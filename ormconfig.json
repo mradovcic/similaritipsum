@@ -5,10 +5,8 @@
   "username": "postgres",
   "password": "postgres",
   "database": "test",
-  "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": true,
+  "synchronize": false,
   "migrationsTableName": "similaritipsum.version_info",
-  "migrations": ["migration/*.ts"],
   "cli": {
       "migrationsDir": "migration"
   }

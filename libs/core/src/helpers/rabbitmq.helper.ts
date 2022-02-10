@@ -38,6 +38,7 @@ export class RabbitMqHelper {
     await channel.consume(queueName, async (msg: ConsumeMessage) => {
       try {
         await onMessage(JSON.parse(msg.content.toString()));
+        channel.ack(msg, null);
       } catch (e) {
         console.error(e);
         await sleep(500);

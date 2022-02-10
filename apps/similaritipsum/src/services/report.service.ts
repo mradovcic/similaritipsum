@@ -1,5 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateReportRequest, Report, ReportCoreService } from 'core/core';
+import { HttpException, Injectable } from '@nestjs/common';
+import {
+  CreateReportRequest,
+  Report,
+  ReportCoreService,
+  ReportResponse,
+} from 'core/core';
 import { RabbitConstants } from 'core/core/helpers/common.helper';
 import { RabbitMqHelper } from 'core/core/helpers/rabbitmq.helper';
 
@@ -17,7 +22,7 @@ export class ReportService {
     );
 
     try {
-      //await this.reportCoreService.add(report);
+      await this.reportCoreService.add(report);
       await RabbitMqHelper.publish(
         RabbitConstants.connectionName,
         report,
@@ -30,5 +35,20 @@ export class ReportService {
       }
       throw err;
     }
+  }
+
+  async getById(id: string): Promise<ReportResponse> {
+    const report = await this.reportCoreService.getById(id);
+    if (!report) {
+      throw new HttpException(`Report ${id} not found`, 404);
+    }
+
+    return {
+      firstText: report.firstText,
+      secondText: report.secondText,
+      status: report.status,
+      processedDateTime: report.processedDateTime,
+      result: report.result,
+    } as ReportResponse;
   }
 }
