@@ -87,3 +87,46 @@ GET /api/report/fetch?id=ca89d800-f66c-4b2a-aaa9-39c79fa6685b
     "result": "0.8333333333333334"
 }
 ```
+
+## Installation
+
+### Prerequisites
+
+ - [RabbitMq](https://www.rabbitmq.com/download.html)
+ - [PostgreSQL](https://www.postgresql.org/download/)
+ - [Node](https://nodejs.org/en/download/)
+ - [Nest CLI](https://docs.nestjs.com/cli/overview)
+ 
+ #### Database
+ Configuration file
+```
+// ormconfig.json
+
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "test",
+  "synchronize": false,
+  "migrationsTableName": "similaritipsum.version_info",
+  "migrationsRun": false,
+  "cli": {
+      "migrationsDir": "migration"
+  }
+}
+```
+Create schema named `similaritipsum`, set database user `search_path` to `similaritipsum`  and run migrations using command
+`npm typeorm`
+
+#### RabbitMQ
+RabbitMQ settings can be found in `.env` file
+```
+RABBITMQ_HOST=localhost
+RABBITMQ_USERNAME=guest
+RABBITMQ_PASSWORD=guest
+```
+
+#### Running
+Start API with command `npm start` and processor with command `nest start processor`
