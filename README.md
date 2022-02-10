@@ -1,73 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API for generating and comparing lorem ipsum text built on Nest.js framework. Text is compared using [Dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
+ 
+  
+## API Endpoints
 
-## Installation
-
-```bash
-$ npm install
+**Error response:**
+In case of error API returns response containing status code and message
+**Example:**
+```
+{
+    "statusCode": 500,
+    "message": "Internal server error"
+}
 ```
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+### GET /api/generator/generate?n=[numberOfWords]
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+**Response:**
+```
+{
+	"result": string
+}
 ```
 
-## Test
+**Example**
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+GET /api/generator/generate?n=10
+```
+{
+	"result": "ad consequat ad proident minim officia nulla esse laboris in"
+}
 ```
 
-## Support
+### POST /api/report/create
+**Request:**
+```
+{
+    "id": string(uuid), //action id of request which is used to fetch report after processing
+    "firstText": string, //first text to compare
+    "secondText": string //second text to compare
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+**Response:**
+201 Created status with no body
+**Example**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+POST /api/report/create
+```
+{
+    "id": "ca89d800-f66c-4b2a-aaa9-39c79fa6685b",
+    "firstText": "labore excepteur ipsum sunt id eu qui id deserunt ea excepteur id officia elit eiusmod mollit cupidatat proident amet cillum aute ipsum irure qui ullamco irure aliquip non do tempor consequat fugiat irure pariatur veniam commodo nostrud aliquip voluptate nisi proident nisi ex dolor dolore amet est incididunt est sunt",
+    "secondText": "cupidatat officia officia aliqua in elit in consectetur mollit exercitation nisi ex est adipisicing voluptate consequat velit culpa duis reprehenderit irure ut eiusmod ullamco ex consectetur voluptate ad nulla cillum est pariatur incididunt deserunt deserunt anim anim ad amet incididunt dolor aute laboris officia esse velit pariatur voluptate eu sunt"
+}
+```
 
-## License
+### GET /api/report/fetch?id=[reportId]
+Used for fetching previously created report
+**Response:**
+```
+{
+    "firstText": string,
+    "secondText": string,
+    "status": string, // 
+	    'created' (if report is still being processed), 
+	    'rejected' (if report cannot be processed),
+	    'processed' (report processing done)
+    "processedDateTime": string(date) //null if status is not 'processed',
+    "result": string //null if status is not 'processed',
+}
 
-Nest is [MIT licensed](LICENSE).
+```
+
+**Example:**
+GET /api/report/fetch?id=ca89d800-f66c-4b2a-aaa9-39c79fa6685b
+
+```
+{
+    "firstText": "labore excepteur ipsum sunt id eu qui id deserunt ea excepteur id officia elit eiusmod mollit cupidatat proident amet cillum aute ipsum irure qui ullamco irure aliquip non do tempor consequat fugiat irure pariatur veniam commodo nostrud aliquip voluptate nisi proident nisi ex dolor dolore amet est incididunt est sunt",
+    "secondText": "cupidatat officia officia aliqua in elit in consectetur mollit exercitation nisi ex est adipisicing voluptate consequat velit culpa duis reprehenderit irure ut eiusmod ullamco ex consectetur voluptate ad nulla cillum est pariatur incididunt deserunt deserunt anim anim ad amet incididunt dolor aute laboris officia esse velit pariatur voluptate eu sunt",
+    "status": "processed",
+    "processedDateTime": "2022-02-10T07:45:34.067Z",
+    "result": "0.8333333333333334"
+}
+```
