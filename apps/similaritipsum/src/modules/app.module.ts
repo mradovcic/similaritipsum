@@ -10,10 +10,14 @@ import { TextGeneratorService } from '../services/textGenerator.service';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: async () =>
-        Object.assign(await getConnectionOptions(), {
+      useFactory: async () => {
+        const options = Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
-        }),
+          migrations: null,
+        });
+        console.log(options);
+        return options;
+      },
     }),
     ReportCoreModule,
   ],

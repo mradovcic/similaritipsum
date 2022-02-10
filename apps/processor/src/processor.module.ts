@@ -10,6 +10,7 @@ import { ProcessorService } from './processor.service';
       useFactory: async () =>
         Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
+          migrations: null,
         }),
     }),
     ReportCoreModule,
